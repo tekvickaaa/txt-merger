@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>.txt merger</title>
+</head>
+<body>
+    <nav><div class="logo">.txt merger</div></nav>
+    <main>
+        <h1>select your files to merge</h1>
+        <div class="vertical">
+            <div>
+                <input type="file" multiple id="fileInput" accept=".txt" onchange="loadFiles()" class="hidden-input">
+                <label for="fileInput" class="upload">upload file</label>
+            </div>
+            <label for="filename">enter optional filename</label>
+            <input type="text" placeholder="filename" id="filename" class="text-input">
+            <div id="fileList"></div>
+            <button id="mergeBtn" onclick="mergeFiles()" class="merge-btn">merge</button>
+        </div>
+    <div id="result"></div>
+    </main>
+    <div class="sidebar"> </div>
+</body>
+<script>
+let selectedFiles = [];
+let dragIndex = null;
+const mergeBtn = document.getElementById("mergeBtn");
+const fileNameInput = document.getElementById("filename");
+
+mergeBtn.style.display = "none";
+fileNameInput.style.display = 'none';
+
+function loadFiles(){
+    selectedFiles = Array.from(document.getElementById('fileInput').files);
+    renderFileList();
+    mergeBtn.style.display = "block";
+    fileNameInput.style.display = 'block';
+}
+
+function renderFileList(){
+    const fileContainer = document.getElementById('fileList');
+    fileContainer.innerHTML = "";
+    for(let i = 0; i < selectedFiles.length; i++){
+        const item = document.createElement("div");
+        item.textContent = selectedFiles[i].name;
+        item.className = "file-item";
+        fileContainer.appendChild(item);
+        item.dataset.index = i;
+        item.draggable = true;
+        item.addEventListener("dragstart", (e) => {
+            dragIndex = item.dataset.index;
+        });
+        item.addEventListener("dragover", (e) => e.preventDefault());
+        item.addEventListener("drop", (e) => {
+            let dropIndex = item.dataset.index;
+            const movedFile = selectedFiles.splice(dragIndex, 1)[0];
+            selectedFiles.splice(dropIndex, 0, movedFile);
+            renderFileList();
+        });
+    }  
+}
+async function mergeFiles(){
+    const fileInput = document.getElementById('fileInput');
+    let resultFile;
+    if (selectedFiles.length != 0){
+        let mergedCount = 0;
+        let mergedContent = '';
+        for(let i = 0; i < selectedFiles.length; i++) {
+            mergedContent += await selectedFiles[i].text();
+            mergedContent += "\n\n";
+        }
+        
+        let resFileName;
+        if(fileNameInput.value !== ""){
+            resFileName = fileNameInput.value + ".txt";
+        }
+        else {
+            resFileName = "merged.txt";
+        }
+        resultFile = new File([mergedContent], resFileName, {type: 'text/plain'});
+        document.getElementById('result').innerHTML = `<a href="${URL.createObjectURL(resultFile)}" download="${resFileName}">Download ${resFileName}</a>`;
+    }    
+    return resultFile;
+}
+</script>
+</html>
