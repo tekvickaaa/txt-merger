@@ -3,6 +3,10 @@ body {
     color: white;
     font-family: monospace;
     margin: 0px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 main {
@@ -16,7 +20,21 @@ nav {
 }
 
 h1 {
-    margin-bottom: 64px;
+    margin-bottom: 48px;
+}
+
+a {
+    text-decoration: none;
+    background-color: #202020;
+    border: solid 2px #fff;
+    padding: 12px 24px 12px 24px;
+    color: #fff;
+    border-radius: 8px;
+}
+
+a:hover {
+    background-color: #0c0c0c;
+    cursor: pointer;
 }
 
 .logo {
@@ -26,6 +44,7 @@ h1 {
 }
 
 .vertical {
+    height: 100%;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -33,6 +52,11 @@ h1 {
 
 .text-input {
     max-width: 20%;
+    background-color: #202020;
+    border: solid 2px #fff;
+    padding: 12px 24px 12px 24px;
+    color: #fff;
+    border-radius: 8px;
 }
 
 .file-item {
@@ -43,7 +67,7 @@ h1 {
     margin: 4px 0px 4px 0px;
 }
 
-.merge-btn {
+.btn {
     background-color: #202020;
     border: solid 2px #fff;
     padding: 12px 24px 12px 24px;
@@ -55,16 +79,11 @@ h1 {
     opacity: 0;
 }
 
-.upload {
-    font-size: 24px;
-    background-color: #5b1698;
-    border: solid 2px #fff;
-    padding: 24px 48px 24px 48px;
-    color: #fff;
-    border-radius: 8px;
+.btn:hover {
+    background-color: #0c0c0c;
+    cursor: pointer;
 }
 
-.upload:hover {
-    background-color: #2f0c4f;
-    cursor: pointer;
+#result {
+    margin-top: 12px;
 }

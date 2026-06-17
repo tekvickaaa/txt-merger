@@ -13,14 +13,14 @@
         <div class="vertical">
             <div>
                 <input type="file" multiple id="fileInput" accept=".txt" onchange="loadFiles()" class="hidden-input">
-                <label for="fileInput" class="upload">upload file</label>
+                <label for="fileInput" class="btn">upload files</label>
             </div>
-            <label for="filename">enter optional filename</label>
+            <label for="filename" id="fnname">enter optional filename</label>
             <input type="text" placeholder="filename" id="filename" class="text-input">
             <div id="fileList"></div>
-            <button id="mergeBtn" onclick="mergeFiles()" class="merge-btn">merge</button>
+            <button id="mergeBtn" onclick="mergeFiles()" class="btn">merge</button>
+            <div id="result"></div>
         </div>
-    <div id="result"></div>
     </main>
     <div class="sidebar"> </div>
 </body>
@@ -29,15 +29,18 @@ let selectedFiles = [];
 let dragIndex = null;
 const mergeBtn = document.getElementById("mergeBtn");
 const fileNameInput = document.getElementById("filename");
+const filenameLabel = document.getElementById("fnname");
 
 mergeBtn.style.display = "none";
 fileNameInput.style.display = 'none';
+filenameLabel.style.display = "none";
 
 function loadFiles(){
     selectedFiles = Array.from(document.getElementById('fileInput').files);
     renderFileList();
     mergeBtn.style.display = "block";
     fileNameInput.style.display = 'block';
+    filenameLabel.style.display = 'block';
 }
 
 function renderFileList(){
